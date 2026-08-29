@@ -7,6 +7,10 @@ from app.core.database import Base, engine
 # Import models so SQLAlchemy knows about them
 from app.models.schema import Schema
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # ============================================================
 # Create database tables
@@ -39,6 +43,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        os.getenv("FRONTEND_URI", "http://localhost:5173"),
     ],
     allow_credentials=True,
     allow_methods=["*"],
