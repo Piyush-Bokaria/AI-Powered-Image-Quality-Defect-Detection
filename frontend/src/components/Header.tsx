@@ -11,9 +11,9 @@ const statusColors: Record<SystemStatus, string> = {
 };
 
 const statusLabels: Record<SystemStatus, string> = {
-  online: 'System Online',
-  offline: 'System Offline',
-  checking: 'Checking…',
+  'online': 'System Online',
+  'offline': 'System Offline',
+  'checking': 'Checking…',
 };
 
 export const Header: React.FC = () => {

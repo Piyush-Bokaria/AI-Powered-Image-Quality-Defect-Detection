@@ -14,7 +14,8 @@ export function useHealth(intervalMs = 30_000) {
       try {
         const health = await getHealth();
         if (!cancelled) {
-          setStatus(health.status === 'ok' ? 'online' : 'offline');
+          const s = health.status?.toLowerCase();
+          setStatus(s === 'ok' || s === 'online' || s === 'healthy' ? 'online' : 'offline');
         }
       } catch {
         if (!cancelled) setStatus('offline');

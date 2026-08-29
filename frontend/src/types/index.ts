@@ -1,5 +1,5 @@
 // ── Quality labels ──────────────────────────────────────────────────
-export type QualityLabel = 'ACCEPTABLE' | 'DEGRADED' | 'DEFECTIVE';
+export type QualityLabel = 'ACCEPTABLE' | 'DEGRADED' | 'DEFECTIVE' | 'POTENTIALLY_DEFECTIVE' | string;
 
 // ── Issue types emitted by the analysis engine ─────────────────────
 export type IssueType =
@@ -8,9 +8,10 @@ export type IssueType =
   | 'overexposure'
   | 'noise'
   | 'corruption'
-  | 'defect';
+  | 'defect'
+  | string;
 
-export type Severity = 'critical' | 'high' | 'medium' | 'low';
+export type Severity = 'critical' | 'high' | 'medium' | 'low' | string;
 
 // ── Single detected issue ──────────────────────────────────────────
 export interface Issue {
@@ -20,14 +21,47 @@ export interface Issue {
 }
 
 // ── Technical statistics ───────────────────────────────────────────
-export interface Stats {
+export interface ClassicalFeatures {
   sharpness: number;
   brightness: number;
   contrast: number;
-  noise_level: number;
-  saturation?: number;
-  dynamic_range?: number;
-  [key: string]: number | undefined;
+  noise_estimate: number;
+  saturation: number;
+  edge_density: number;
+  entropy: number;
+  colorfulness: number;
+  pct_shadow_clip_15: number;
+  pct_shadow_clip_30: number;
+  pct_highlight_clip_240: number;
+  pct_highlight_clip_225: number;
+  p01: number;
+  p05: number;
+  p95: number;
+  p99: number;
+}
+
+export interface AnomalyFeatures {
+  mean_err: number;
+  max_err: number;
+  std_err: number;
+  p90_err: number;
+  p99_err: number;
+  pct_anomalous: number;
+  mean_grad_err: number;
+  max_grad_err: number;
+  p95_grad_err: number;
+  local_max_err: number;
+  local_std_err: number;
+}
+
+export interface Stats {
+  image_width: number;
+  image_height: number;
+  defect_probability: number;
+
+  classical_features: ClassicalFeatures;
+
+  anomaly_features?: AnomalyFeatures;
 }
 
 // ── Full analysis result (POST + GET /analysis/:id) ────────────────
@@ -53,5 +87,5 @@ export interface AnalysisSummary {
 
 // ── Health check ───────────────────────────────────────────────────
 export interface HealthStatus {
-  status: 'ok' | 'degraded' | 'down';
+  status: 'ok' | 'online' | 'healthy' | 'degraded' | 'down';
 }

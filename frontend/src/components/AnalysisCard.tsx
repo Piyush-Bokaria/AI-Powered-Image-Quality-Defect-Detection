@@ -27,9 +27,9 @@ export const AnalysisCard: React.FC<AnalysisCardProps> = ({
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden bg-white/[0.02]">
-        {analysis.image_url ? (
+        {(analysis.image_url || (analysis as any).img_url) ? (
           <img
-            src={analysis.image_url}
+            src={analysis.image_url || (analysis as any).img_url}
             alt={`Analysis ${analysis.id}`}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />

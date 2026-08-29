@@ -5,10 +5,9 @@ import { IssueList } from './IssueList';
 import { TechReadout } from './TechReadout';
 import { ImagePreview } from './ImagePreview';
 import { cn, qualityLabelStyle } from '../lib/utils';
-import type { AnalysisResult } from '../types';
 
 interface ResultsPanelProps {
-  result: AnalysisResult;
+  result: any;
 }
 
 export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
@@ -22,9 +21,9 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
       {/* Top section: Image + Score */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Image */}
-        {result.image_url && (
+        {(result.image_url || result.img_url) && (
           <ImagePreview
-            imageUrl={result.image_url}
+            imageUrl={result.image_url || result.img_url}
             heatmapUrl={result.heatmap_url}
             alt="Analyzed image"
           />
@@ -58,7 +57,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
       </div>
 
       {/* Technical readout */}
-      <TechReadout stats={result.stats} />
+      <TechReadout stats={result.stats || result.statistics} />
     </motion.div>
   );
 };
